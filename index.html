@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>recording</title>
+  <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"></script>
+  <style>
+    html, body { margin: 0; height: 100%; background: #fff; }
+    model-viewer { width: 100vw; height: 100vh; height: 100dvh; }
+    #ar-btn {
+      position: absolute; left: 50%; bottom: 32px; transform: translateX(-50%);
+      padding: 18px 36px; font: 600 20px/1 -apple-system, Helvetica, Arial, sans-serif;
+      color: #fff; background: #000; border: 0; border-radius: 999px;
+    }
+  </style>
+</head>
+<body>
+  <model-viewer src="model.glb" ar ar-modes="webxr scene-viewer quick-look"
+                ar-scale="auto" ar-placement="floor"
+                camera-controls auto-rotate shadow-intensity="1">
+    <button slot="ar-button" id="ar-btn">View in AR</button>
+  </model-viewer>
+</body>
+</html>
