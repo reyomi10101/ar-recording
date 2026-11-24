@@ -13,13 +13,46 @@
       padding: 18px 36px; font: 600 20px/1 -apple-system, Helvetica, Arial, sans-serif;
       color: #fff; background: #000; border: 0; border-radius: 999px;
     }
+    #sound-btn {
+      position: fixed; top: 16px; right: 16px; z-index: 10;
+      padding: 12px 18px; font: 600 15px/1 -apple-system, Helvetica, Arial, sans-serif;
+      color: #000; background: #fff; border: 2px solid #000; border-radius: 999px;
+    }
   </style>
 </head>
 <body>
+  <audio id="sound" src="sounds_mix.m4a" loop preload="auto" playsinline></audio>
+  <button id="sound-btn">Sound on</button>
+
   <model-viewer src="model.glb" ar ar-modes="webxr scene-viewer quick-look"
                 ar-scale="auto" ar-placement="floor"
                 camera-controls auto-rotate shadow-intensity="1">
     <button slot="ar-button" id="ar-btn">View in AR</button>
   </model-viewer>
+
+  <script>
+    const sound = document.getElementById('sound');
+    const soundBtn = document.getElementById('sound-btn');
+    const label = () => { soundBtn.textContent = sound.paused ? 'Sound on' : 'Sound off'; };
+    sound.addEventListener('play', label);
+    sound.addEventListener('pause', label);
+
+    // Sound button: toggle
+    soundBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (sound.paused) sound.play().catch(() => {}); else sound.pause();
+    });
+
+    // Start the sound when the AR button is tapped
+    document.getElementById('ar-btn').addEventListener('click', () => {
+      sound.play().catch(() => {});
+    });
+
+    // Also start on the first touch of the model (browsers block sound before a touch)
+    let started = false;
+    document.querySelector('model-viewer').addEventListener('pointerdown', () => {
+      if (!started) { started = true; sound.play().catch(() => {}); }
+    });
+  </script>
 </body>
 </html>
